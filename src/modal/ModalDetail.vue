@@ -1,13 +1,10 @@
 <template>
-  <div class="modal-body">
+  <div class="modalBody">
     <div class="modal-cont">
       <h5>{{ item.title }}</h5>
       <p>{{ item.description }}</p>
       <ul class="d-flex flex-row">
-        {{
-          item
-        }}
-        <li v-for="(img, index) in item" :key="index">
+        <li v-for="(img, index) in item.images" :key="index">
           <img :src="img" alt="" style="width: 40px; height: 30px" />
         </li>
       </ul>
@@ -21,7 +18,7 @@ export default {
   name: "modal-detail",
   props: {
     item: {
-      type: Array,
+      type: Object,
     },
   },
   data() {
@@ -34,11 +31,14 @@ export default {
       this.$emit("closeModal");
     },
   },
+  mounted(){
+    console.log(this.item)
+  }
 };
 </script>
 
 <style>
-.modal-body {
+.modalBody {
   display: flex;
   justify-content: center;
   align-items: center;

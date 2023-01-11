@@ -12,13 +12,7 @@
           <h2>{{ product.id }}</h2>
           <img :src="product.thumbnail" alt="" style="width: 100%" />
         </div>
-
-        <!-- 분기 -->
-        <div v-if="changeTitle">
-          <p>{{ product.title }}</p>
-        </div>
-        <content-edit-view v-else :changeContent="changeContent" @onEditDone="changedTitle" />
-        <button @click="openEditBox(product)" v-show="changeTitle">수정</button>
+        <content-edit-view :product="product" @changeTitle="doneEdit"/>
 
         <button
           type="button"
@@ -35,10 +29,8 @@
 
 <script>
 import axios from "axios";
-// import _ from "lodash"; // eslint-disable-line no-unused-vars
 import Modal from "@/modal/ModalDetail.vue";
 import ContentEditView from './content/ContentEditView.vue';
-// import ChangeTitle from "@/components/ChangeTitle.vue";
 export default {
   components: { Modal, ContentEditView },
   name: "test-crud",
@@ -50,9 +42,6 @@ export default {
       modalState: false,
       item: {},
       cloneProducts: [],
-      changeContent: '',
-      changeTitle: true,
-      doneTitle: ''
     };
   },
   methods: {
@@ -79,9 +68,8 @@ export default {
       // this.products.splice(index, 1);
     },
     openDetail(id) {
-      const idx = id + 1;
-      this.item = this.products[idx];
-      this.modalState = !this.modalState;
+      this.item = this.products[id];
+      this.modalState = true;
     },
     closeModal() {
       this.modalState = false;
@@ -89,15 +77,9 @@ export default {
     deepClone() {
       this.cloneItem = JSON.parse(JSON.stringify(this.products));
     },
-    openEditBox(product){
-      // console.log(product)
-      this.changeContent = product
-      this.changeTitle = !this.changeTitle
-    },
-    changedTitle(data, completed){
-      console.log('data:', data)
-      console.log('completed:', completed)
-      // console.log('closeInput:', closeInput)
+    doneEdit(item, id){
+      console.log('item', item)
+      console.log('id', id)
     }
   },
   mounted() {

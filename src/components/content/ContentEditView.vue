@@ -1,35 +1,38 @@
 <template>
     <div>
-      {{editTitle}}
-      <div>
-        <input type="text" v-model="editTitle" @keyup.enter="onEditDone">
-        <button class="btn" @click="onEditDone">수정완료</button>
+      <p v-if="!edit">{{ product.title }}</p>
+      <div v-else>
+        <input type="text" v-model="newTitle">
+        <button class="btn" @click="changeTitle">수정완료</button>
       </div>
+        <button @click="this.edit = !this.edit" v-show="!this.edit">수정</button>
+
     </div>
 </template>
 
 <script>
 export default {
   props: {
-    changeContent:{
+    product:{
       type: Object
     }
   },
 
   data(){
     return{
-      editTitle: '',
-      completed: false
+      edit: false,
+      newTitle: ''
     }
   },methods: {
-    onEditDone(){
-      console.log('자식')
-      this.completed = true
-      this.$emit('onEditDone', this.editTitle, this.completed)
+    changeTitle(){
+      this.$emit("changeTitle", this.newTitle, this.product.id)
+    },
+    openEditBox(){
+
     }
   },
   mounted(){
-    console.log('this.changeContent:', this.changeContent.title)
+    // console.log('this.changeContent:', this.changeContent.title)
   }
 }
 </script>
