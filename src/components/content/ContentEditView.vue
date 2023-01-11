@@ -5,12 +5,12 @@
         <input type="text" v-model="newTitle">
         <button class="btn" @click="changeTitle">수정완료</button>
       </div>
-        <button @click="this.edit = !this.edit" v-show="!this.edit">수정</button>
-
+      <button @click="this.edit = !this.edit" v-show="!this.edit">수정</button>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   props: {
     product:{
@@ -26,6 +26,13 @@ export default {
   },methods: {
     changeTitle(){
       this.$emit("changeTitle", this.newTitle, this.product.id)
+      try {
+          await axios.update(`https://dummyjson.com/products?limit=10/${id}`, {
+            ...this.newTitle
+          })
+      } catch (error) {
+          console.log(error)
+      }
     },
     openEditBox(){
 
